@@ -7,6 +7,7 @@ import { Icon, IconTypes } from "./Icon"
 import { TextThemed } from "./TextThemed"
 import { TransactionDTO } from "../services/api"
 import { formatMoney } from "../utils/formatMoney"
+import Animated,{ Layout, FadeIn} from "react-native-reanimated"
 
 export interface TransactionListItemProps {
   /**
@@ -40,7 +41,9 @@ export const TransactionListItem = observer(function TransactionListItem(
   const iconType = getTransactionIconType(transaction)
 
   return (
-    <View style={$styles}>
+    <Animated.View style={$styles}
+    entering={FadeIn}
+    layout={Layout.springify()}>
       <View style={$transactionType}>
         <Icon icon={iconType} size={18} color="white" />
       </View>
@@ -66,7 +69,7 @@ export const TransactionListItem = observer(function TransactionListItem(
           {transaction.currency.name}
         </TextThemed>
       </View>
-    </View>
+    </Animated.View>
   )
 })
 
