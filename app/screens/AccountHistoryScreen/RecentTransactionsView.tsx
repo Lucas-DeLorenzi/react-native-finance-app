@@ -23,8 +23,6 @@ export const RecentTransactionsView = observer(function RecentTransactionsView(
   const { style, transactions } = props
   const $styles = [$container, style]
 
-  const AnimatedViewTheme = Animated.createAnimatedComponent(ViewThemed)
-
   const navigation = useAppStackNavigation()
   const openTransactionList = () => navigation.navigate("TransactionList")
 
@@ -34,7 +32,7 @@ export const RecentTransactionsView = observer(function RecentTransactionsView(
   })
 
   return (
-    <AnimatedViewTheme style={$styles} entering={FadeIn} exiting={FadeOut}>
+    <ViewThemed style={$styles} entering={FadeIn} exiting={FadeOut}>
       <View style={$transactionsHeader}>
         <TextThemed style={$transactionsHeaderText}>Recent transactions</TextThemed>
         <TouchableOpacity style={$transactionsFilterButton} onPress={openTransactionList}>
@@ -63,7 +61,7 @@ export const RecentTransactionsView = observer(function RecentTransactionsView(
           )
         })}
       </View>
-    </AnimatedViewTheme>
+    </ViewThemed>
   )
 })
 
