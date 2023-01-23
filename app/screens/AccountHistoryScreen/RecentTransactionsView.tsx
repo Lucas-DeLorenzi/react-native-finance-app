@@ -7,6 +7,7 @@ import { Icon, TextThemed, ViewThemed } from "../../components"
 import { useAppStackNavigation } from "../../navigators"
 import { useColorSchemeStyle } from "../../theme/useColorSchemeStyle"
 import { TransactionDTO } from "../../services/api"
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
 
 export interface RecentTransactionsViewProps {
   /**
@@ -22,6 +23,8 @@ export const RecentTransactionsView = observer(function RecentTransactionsView(
   const { style, transactions } = props
   const $styles = [$container, style]
 
+  const AnimatedViewTheme = Animated.createAnimatedComponent(ViewThemed)
+
   const navigation = useAppStackNavigation()
   const openTransactionList = () => navigation.navigate("TransactionList")
 
@@ -31,7 +34,11 @@ export const RecentTransactionsView = observer(function RecentTransactionsView(
   })
 
   return (
-    <ViewThemed style={$styles}>
+    <AnimatedViewTheme
+      style={$styles}
+      entering={FadeIn}
+      exiting={FadeOut}
+    >
       <View style={$transactionsHeader}>
         <TextThemed style={$transactionsHeaderText}>Recent transactions</TextThemed>
         <TouchableOpacity style={$transactionsFilterButton} onPress={openTransactionList}>
@@ -50,7 +57,7 @@ export const RecentTransactionsView = observer(function RecentTransactionsView(
           )
         })}
       </View>
-    </ViewThemed>
+    </AnimatedViewTheme>
   )
 })
 
