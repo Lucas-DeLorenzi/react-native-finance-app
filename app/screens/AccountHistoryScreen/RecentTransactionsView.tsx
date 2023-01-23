@@ -7,7 +7,7 @@ import { Icon, TextThemed, ViewThemed } from "../../components"
 import { useAppStackNavigation } from "../../navigators"
 import { useColorSchemeStyle } from "../../theme/useColorSchemeStyle"
 import { TransactionDTO } from "../../services/api"
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
+import Animated, { FadeIn, FadeInUp, FadeOut } from "react-native-reanimated"
 
 export interface RecentTransactionsViewProps {
   /**
@@ -34,11 +34,7 @@ export const RecentTransactionsView = observer(function RecentTransactionsView(
   })
 
   return (
-    <AnimatedViewTheme
-      style={$styles}
-      entering={FadeIn}
-      exiting={FadeOut}
-    >
+    <AnimatedViewTheme style={$styles} entering={FadeIn} exiting={FadeOut}>
       <View style={$transactionsHeader}>
         <TextThemed style={$transactionsHeaderText}>Recent transactions</TextThemed>
         <TouchableOpacity style={$transactionsFilterButton} onPress={openTransactionList}>
@@ -48,11 +44,21 @@ export const RecentTransactionsView = observer(function RecentTransactionsView(
       <View style={$transactionsList}>
         {transactions.map((transaction, index) => {
           const isLastItem = index === transactions.length - 1
+          const isFirstItem = index === 0
 
           return (
             <React.Fragment key={transaction.id}>
-              <TransactionListItem transaction={transaction} />
-              {!isLastItem && <View style={$transactionsListItemDividerStyle} />}
+              {isFirstItem ? (
+                <>
+                  <TransactionListItem transaction={transaction} />
+                  {!isLastItem && <View style={$transactionsListItemDividerStyle} />}
+                </>
+              ) : (
+                <Animated.View entering={FadeInUp}>
+                  <TransactionListItem transaction={transaction} />
+                  {!isLastItem && <View style={$transactionsListItemDividerStyle} />}
+                </Animated.View>
+              )}
             </React.Fragment>
           )
         })}
