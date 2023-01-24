@@ -62,7 +62,7 @@ export const TransactionListScreen: FC<AppStackScreenProps<"TransactionList">> =
       return <TransactionListItem style={$transactionsListItem} transaction={item.payload} />
     }, [])
 
-    const keyExtractor = (_, index) => index.toString()
+    const keyExtractor = useCallback((_, index) => index.toString(), [])
 
     const $containerThemed = useColorSchemeStyle({
       light: $containerLight,
