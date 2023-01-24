@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useCallback } from "react"
 import { observer } from "mobx-react-lite"
 import { FlatList, ListRenderItem, TextStyle, View, ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
@@ -51,6 +51,19 @@ export const TransactionListScreen: FC<AppStackScreenProps<"TransactionList">> =
       return result
     }, [])
 
+    const renderItem = useCallback(({ item }) => {
+      if (item.type === "month") {
+        return (
+          <View style={$transactionsListSection}>
+            <TextThemed style={$transactionsListSectionHeader}>{item.payload}</TextThemed>
+          </View>
+        )
+      }
+      return <TransactionListItem style={$transactionsListItem} transaction={item.payload} />
+    }, [])
+
+    const keyExtractor = (_, index) => index.toString()
+
     const $containerThemed = useColorSchemeStyle({
       light: $containerLight,
       dark: $containerDark,
@@ -61,16 +74,9 @@ export const TransactionListScreen: FC<AppStackScreenProps<"TransactionList">> =
         <FlatList
           style={$transactionsList}
           data={data || []}
-          renderItem={({ item }) => {
-            if (item.type === "month") {
-              return (
-                <View style={$transactionsListSection}>
-                  <TextThemed style={$transactionsListSectionHeader}>{item.payload}</TextThemed>
-                </View>
-              )
-            }
-            return <TransactionListItem style={$transactionsListItem} transaction={item.payload} />
-          }}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          removeClippedSubviews
           onEndReached={() => {
             console.log("onEndReached")
             fetchTransactions(route.params.accountId)
