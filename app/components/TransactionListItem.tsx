@@ -31,7 +31,7 @@ const getTransactionIconType = (transaction: TransactionDTO): IconTypes => {
   }
 }
 
-export function TransactionListItem(props: TransactionListItemProps) {
+export const TransactionListItem = React.memo(function TransactionListItem(props: TransactionListItemProps) {
   const { style, transaction } = props
   const $styles = [$transaction, style]
 
@@ -66,7 +66,8 @@ export function TransactionListItem(props: TransactionListItemProps) {
       </View>
     </View>
   )
-}
+})
+
 
 const $transaction: ViewStyle = {
   flexDirection: "row",

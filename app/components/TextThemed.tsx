@@ -7,7 +7,7 @@ export interface TextThemedProps extends TextProps {
   variant?: "primary" | "secondary"
 }
 
-export const TextThemed = observer(function TextThemed(props: TextThemedProps) {
+export const TextThemed = React.memo(observer(function TextThemed(props: TextThemedProps) {
   const { style, variant = "primary", ...otherProps } = props
   const colorScheme = useColorScheme()
 
@@ -25,7 +25,7 @@ export const TextThemed = observer(function TextThemed(props: TextThemedProps) {
   const $styles = [colorScheme ? styles[variant][colorScheme] : null, style]
 
   return <Text style={$styles} {...otherProps} />
-})
+}))
 
 export const $textPrimaryLight: TextStyle = {
   color: "#16110D",
