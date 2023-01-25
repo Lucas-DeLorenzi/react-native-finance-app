@@ -13,6 +13,7 @@ export interface RecentTransactionsViewProps {
   /**
    * An optional style override useful for padding & margin.
    */
+  accountId: number
   style?: StyleProp<ViewStyle>
   transactions: TransactionDTO[]
 }
@@ -20,7 +21,7 @@ export interface RecentTransactionsViewProps {
 export const RecentTransactionsView = observer(function RecentTransactionsView(
   props: RecentTransactionsViewProps,
 ) {
-  const { style, transactions } = props
+  const { style, transactions, accountId } = props
   const $styles = [$container, style]
 
   const navigation = useAppStackNavigation()
@@ -32,7 +33,7 @@ export const RecentTransactionsView = observer(function RecentTransactionsView(
   })
 
   return (
-    <ViewThemed style={$styles} entering={FadeIn} exiting={FadeOut}>
+    <ViewThemed style={$styles} entering={FadeIn} exiting={FadeOut} key={accountId}>
       <View style={$transactionsHeader}>
         <TextThemed style={$transactionsHeaderText}>Recent transactions</TextThemed>
         <TouchableOpacity style={$transactionsFilterButton} onPress={openTransactionList}>
